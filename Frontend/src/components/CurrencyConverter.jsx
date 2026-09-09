@@ -182,7 +182,7 @@ export default function CurrencyConverter({ from, to, amount, onFromChange, onTo
     onToChange(prevFrom);
   };
 
-  const formattedResult = result !== null ? formatNumber(result, 4) : null;
+  const formattedResult = result !== null ? formatNumber(result, 2) : null;
 
   return (
     <div className="card card--accent animate-fadeIn">

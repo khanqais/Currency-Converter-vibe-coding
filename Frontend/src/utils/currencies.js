@@ -37,10 +37,13 @@ export const CURRENCIES = {
 
 export const CURRENCY_CODES = Object.keys(CURRENCIES);
 
-export function formatNumber(value, decimals = 2) {
+export function formatNumber(value, decimals = 2, maxDecimals = decimals) {
   if (value === null || value === undefined || isNaN(value)) return '—';
-  return value.toLocaleString('en-US', {
+  const num = typeof value === 'number' ? value : parseFloat(value);
+  if (isNaN(num)) return '—';
+  return num.toLocaleString('en-US', {
     minimumFractionDigits: decimals,
-    maximumFractionDigits: 6,
+    maximumFractionDigits: maxDecimals,
   });
 }
+
