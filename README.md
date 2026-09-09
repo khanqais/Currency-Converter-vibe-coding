@@ -1,4 +1,4 @@
-# 💱 Currency Converter & Forex Hub
+# 💱 Currency Converter
 
 A full-stack currency exchange and financial utility platform built with **React (Vite)**, **Node.js (Express)**, and **SQLite**. It offers live currency conversions with country flags, historical exchange rate trends, travel budget planning, quick-access favorites, and automated email rate alerts via background cron jobs.
 
