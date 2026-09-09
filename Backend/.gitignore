@@ -1,0 +1,6 @@
+node_modules/
+.env
+*.log
+currency_converter.db
+currency_converter.db-wal
+currency_converter.db-shm
