@@ -1,57 +1,42 @@
-// Shared currency data: ISO code → { name, flag emoji }
+// ISO 3166-1 alpha-2 country codes mapped to currency codes
+// Used by react-country-flag for SVG flag rendering
 export const CURRENCIES = {
-  USD: { name: 'US Dollar',        flag: '🇺🇸' },
-  EUR: { name: 'Euro',             flag: '🇪🇺' },
-  GBP: { name: 'British Pound',    flag: '🇬🇧' },
-  INR: { name: 'Indian Rupee',     flag: '🇮🇳' },
-  JPY: { name: 'Japanese Yen',     flag: '🇯🇵' },
-  AUD: { name: 'Australian Dollar',flag: '🇦🇺' },
-  CAD: { name: 'Canadian Dollar',  flag: '🇨🇦' },
-  CNY: { name: 'Chinese Yuan',     flag: '🇨🇳' },
-  CHF: { name: 'Swiss Franc',      flag: '🇨🇭' },
-  HKD: { name: 'Hong Kong Dollar', flag: '🇭🇰' },
-  SGD: { name: 'Singapore Dollar', flag: '🇸🇬' },
-  SEK: { name: 'Swedish Krona',    flag: '🇸🇪' },
-  NOK: { name: 'Norwegian Krone',  flag: '🇳🇴' },
-  DKK: { name: 'Danish Krone',     flag: '🇩🇰' },
-  MXN: { name: 'Mexican Peso',     flag: '🇲🇽' },
-  BRL: { name: 'Brazilian Real',   flag: '🇧🇷' },
-  ZAR: { name: 'South African Rand', flag: '🇿🇦' },
-  KRW: { name: 'South Korean Won', flag: '🇰🇷' },
-  TRY: { name: 'Turkish Lira',     flag: '🇹🇷' },
-  AED: { name: 'UAE Dirham',       flag: '🇦🇪' },
-  SAR: { name: 'Saudi Riyal',      flag: '🇸🇦' },
-  RUB: { name: 'Russian Ruble',    flag: '🇷🇺' },
-  PLN: { name: 'Polish Złoty',     flag: '🇵🇱' },
-  THB: { name: 'Thai Baht',        flag: '🇹🇭' },
-  IDR: { name: 'Indonesian Rupiah',flag: '🇮🇩' },
-  MYR: { name: 'Malaysian Ringgit',flag: '🇲🇾' },
-  PHP: { name: 'Philippine Peso',  flag: '🇵🇭' },
-  NZD: { name: 'New Zealand Dollar',flag: '🇳🇿' },
-  PKR: { name: 'Pakistani Rupee',  flag: '🇵🇰' },
-  EGP: { name: 'Egyptian Pound',   flag: '🇪🇬' },
-  KWD: { name: 'Kuwaiti Dinar',    flag: '🇰🇼' },
-  QAR: { name: 'Qatari Riyal',     flag: '🇶🇦' },
+  USD: { name: 'US Dollar',          countryCode: 'US' },
+  EUR: { name: 'Euro',               countryCode: 'EU' },
+  GBP: { name: 'British Pound',      countryCode: 'GB' },
+  INR: { name: 'Indian Rupee',       countryCode: 'IN' },
+  JPY: { name: 'Japanese Yen',       countryCode: 'JP' },
+  AUD: { name: 'Australian Dollar',  countryCode: 'AU' },
+  CAD: { name: 'Canadian Dollar',    countryCode: 'CA' },
+  CNY: { name: 'Chinese Yuan',       countryCode: 'CN' },
+  CHF: { name: 'Swiss Franc',        countryCode: 'CH' },
+  HKD: { name: 'Hong Kong Dollar',   countryCode: 'HK' },
+  SGD: { name: 'Singapore Dollar',   countryCode: 'SG' },
+  SEK: { name: 'Swedish Krona',      countryCode: 'SE' },
+  NOK: { name: 'Norwegian Krone',    countryCode: 'NO' },
+  DKK: { name: 'Danish Krone',       countryCode: 'DK' },
+  MXN: { name: 'Mexican Peso',       countryCode: 'MX' },
+  BRL: { name: 'Brazilian Real',     countryCode: 'BR' },
+  ZAR: { name: 'South African Rand', countryCode: 'ZA' },
+  KRW: { name: 'South Korean Won',   countryCode: 'KR' },
+  TRY: { name: 'Turkish Lira',       countryCode: 'TR' },
+  AED: { name: 'UAE Dirham',         countryCode: 'AE' },
+  SAR: { name: 'Saudi Riyal',        countryCode: 'SA' },
+  RUB: { name: 'Russian Ruble',      countryCode: 'RU' },
+  PLN: { name: 'Polish Złoty',       countryCode: 'PL' },
+  THB: { name: 'Thai Baht',          countryCode: 'TH' },
+  IDR: { name: 'Indonesian Rupiah',  countryCode: 'ID' },
+  MYR: { name: 'Malaysian Ringgit',  countryCode: 'MY' },
+  PHP: { name: 'Philippine Peso',    countryCode: 'PH' },
+  NZD: { name: 'New Zealand Dollar', countryCode: 'NZ' },
+  PKR: { name: 'Pakistani Rupee',    countryCode: 'PK' },
+  EGP: { name: 'Egyptian Pound',     countryCode: 'EG' },
+  KWD: { name: 'Kuwaiti Dinar',      countryCode: 'KW' },
+  QAR: { name: 'Qatari Riyal',       countryCode: 'QA' },
 };
 
 export const CURRENCY_CODES = Object.keys(CURRENCIES);
 
-// Format a number with proper locale formatting
-export function formatAmount(value, currency) {
-  if (value === null || value === undefined || isNaN(value)) return '—';
-  try {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency,
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 4,
-    }).format(value);
-  } catch {
-    return `${value.toLocaleString('en-US', { minimumFractionDigits: 2 })} ${currency}`;
-  }
-}
-
-// Get short formatted amount without currency symbol
 export function formatNumber(value, decimals = 2) {
   if (value === null || value === undefined || isNaN(value)) return '—';
   return value.toLocaleString('en-US', {

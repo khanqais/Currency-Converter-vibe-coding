@@ -1,6 +1,20 @@
 import React, { useState, useEffect, useCallback, useImperativeHandle, forwardRef } from 'react';
+import ReactCountryFlag from 'react-country-flag';
 import api from '../services/api';
 import { CURRENCIES } from '../utils/currencies';
+
+function Flag({ code }) {
+  const countryCode = CURRENCIES[code]?.countryCode;
+  if (!countryCode) return <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{code}</span>;
+  return (
+    <ReactCountryFlag
+      countryCode={countryCode}
+      svg
+      style={{ width: '1.1rem', height: '1.1rem', borderRadius: '2px', flexShrink: 0 }}
+      title={CURRENCIES[code]?.name}
+    />
+  );
+}
 import { LoadingSpinner } from './LoadingSpinner';
 import { ErrorMessage } from './ErrorMessage';
 
@@ -76,9 +90,9 @@ const FavoritesList = forwardRef(function FavoritesList({ onSelectPair }, ref) {
                 title={`Select ${fav.from} → ${fav.to}`}
               >
                 <span className="favorite-pair">
-                  <span>{CURRENCIES[fav.from]?.flag || ''} {fav.from}</span>
+                  <Flag code={fav.from} /> <span>{fav.from}</span>
                   <span className="pair-arrow">→</span>
-                  <span>{CURRENCIES[fav.to]?.flag || ''} {fav.to}</span>
+                  <Flag code={fav.to} /> <span>{fav.to}</span>
                 </span>
                 <button
                   id={`delete-fav-${fav._id}`}

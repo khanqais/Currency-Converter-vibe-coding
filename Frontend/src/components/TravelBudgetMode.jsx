@@ -1,15 +1,29 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import ReactCountryFlag from 'react-country-flag';
 import api from '../services/api';
 import { CURRENCIES, CURRENCY_CODES, formatNumber } from '../utils/currencies';
 import { LoadingSpinner } from './LoadingSpinner';
 import { ErrorMessage } from './ErrorMessage';
 
+function Flag({ code, size = '1.4rem' }) {
+  const countryCode = CURRENCIES[code]?.countryCode;
+  if (!countryCode) return null;
+  return (
+    <ReactCountryFlag
+      countryCode={countryCode}
+      svg
+      style={{ width: size, height: size, borderRadius: '3px', flexShrink: 0 }}
+      title={CURRENCIES[code]?.name}
+    />
+  );
+}
+
 const TRAVEL_CURRENCIES_META = {
-  EUR: { flag: '🇪🇺', name: 'Euro' },
-  GBP: { flag: '🇬🇧', name: 'British Pound' },
-  JPY: { flag: '🇯🇵', name: 'Japanese Yen' },
-  AUD: { flag: '🇦🇺', name: 'Australian Dollar' },
-  INR: { flag: '🇮🇳', name: 'Indian Rupee' },
+  EUR: { name: 'Euro' },
+  GBP: { name: 'British Pound' },
+  JPY: { name: 'Japanese Yen' },
+  AUD: { name: 'Australian Dollar' },
+  INR: { name: 'Indian Rupee' },
 };
 
 export default function TravelBudgetMode({ defaultBase = 'USD' }) {
@@ -108,13 +122,17 @@ export default function TravelBudgetMode({ defaultBase = 'USD' }) {
           </thead>
           <tbody>
             {results.map((item) => {
-              const meta = TRAVEL_CURRENCIES_META[item.currency] || { flag: '', name: item.currency };
+              const meta = TRAVEL_CURRENCIES_META[item.currency] || { name: item.currency };
               return (
                 <tr key={item.currency}>
                   <td>
-                    <span className="budget-currency-flag">{meta.flag}</span>
-                    <span className="budget-currency-code">{item.currency}</span>
-                    <span className="budget-currency-name">{meta.name}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <Flag code={item.currency} size="1.5rem" />
+                      <div>
+                        <span className="budget-currency-code">{item.currency}</span>
+                        <span className="budget-currency-name">{meta.name}</span>
+                      </div>
+                    </div>
                   </td>
                   <td>
                     <div className="budget-amount">{formatNumber(item.amount, 2)}</div>
